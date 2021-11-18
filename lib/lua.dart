@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import './logica.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,19 +11,20 @@ class Lua extends StatefulWidget {
 }
 
 class _LuaState extends State<Lua> {
-  // ignore: non_constant_identifier_names
-  final peso = TextEditingController();
+  var total = Total();
   final planetas = TextEditingController();
+  TextEditingController pesoTotal = TextEditingController();
 
-  String valorSelecionado = "";
-  var meuItemInicial = "item 1";
+  var meuItemInicial = "jupiter";
   List<String> listaPlanetas = [
-    "item 1",
-    "item 2",
-    "item 3",
-    "item 4",
-    "item 5",
-    "item 6",
+    "jupiter",
+    "lua",
+    "marte",
+    "mercurio",
+    "plutao",
+    "saturno",
+    "urano",
+    "venus",
   ];
 
   @override
@@ -67,13 +67,12 @@ class _LuaState extends State<Lua> {
                           // ignore: prefer_const_literals_to_create_immutables
                           children: [
                             TextField(
-                              controller: peso,
+                                controller: pesoTotal,
                                 decoration: InputDecoration(
-                              labelText: 'Peso',
-                              hintText: "Digite o seu peso",
-                              border: OutlineInputBorder(),
-                              
-                            )),
+                                  labelText: 'Peso',
+                                  hintText: "Digite o seu peso",
+                                  border: OutlineInputBorder(),
+                                )),
                             Divider(
                               height: 20,
                               thickness: 0,
@@ -91,6 +90,7 @@ class _LuaState extends State<Lua> {
                               child: DropdownButtonHideUnderline(
                                 //esconde linha do drop
                                 child: DropdownButton(
+                                    //drop
                                     borderRadius: BorderRadius.circular(10),
                                     onChanged: (value) {
                                       meuItemInicial = value.toString();
@@ -124,7 +124,12 @@ class _LuaState extends State<Lua> {
                                     elevation: 0,
                                     onPrimary: Colors.white, // foreground
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    // ignore: void_checks
+                                    return Total();
+
+                                    // ignore: unrelated_type_equality_checks
+                                  },
                                   child: Text(
                                     "Calcular",
                                     style: TextStyle(
@@ -147,5 +152,42 @@ class _LuaState extends State<Lua> {
         ),
       ),
     );
+  }
+}
+
+class Total {
+  late final double peso;
+  late final String planeta;
+  late final double pesoTotal;
+
+  Calculo(double peso, String planeta) {
+    switch (planeta) {
+      case 'lua':
+        double pesoTotal = 0.17 * peso;
+
+        break;
+      case 'marte':
+        double pesoTotal = 0.38 * peso;
+        break;
+      case 'saturno':
+        double pesoTotal = 1.15 * peso;
+        break;
+      case 'jupiter':
+        double pesoTotal = 2.64 * peso;
+        break;
+      case 'urano':
+        double pesoTotal = 1.17 * peso;
+        break;
+      case 'plutao':
+        double pesoTotal = 0.11 * peso;
+        break;
+      case 'venus':
+        double pesoTotal = 0.88 * peso;
+        break;
+      case 'mercurio':
+        double pesoTotal = 0.37 * peso;
+        break;
+    }
+    return pesoTotal;
   }
 }
