@@ -11,11 +11,10 @@ class Lua extends StatefulWidget {
 }
 
 class _LuaState extends State<Lua> {
-  var total = Total();
-  final planetas = TextEditingController();
-  TextEditingController pesoTotal = TextEditingController();
+  final _valorController = TextEditingController();
 
-  var meuItemInicial = "jupiter";
+  String dropdownValue = 'jupiter';
+
   List<String> listaPlanetas = [
     "jupiter",
     "lua",
@@ -24,7 +23,7 @@ class _LuaState extends State<Lua> {
     "plutao",
     "saturno",
     "urano",
-    "venus",
+    "venus"
   ];
 
   @override
@@ -67,7 +66,8 @@ class _LuaState extends State<Lua> {
                           // ignore: prefer_const_literals_to_create_immutables
                           children: [
                             TextField(
-                                controller: pesoTotal,
+                                keyboardType: TextInputType.number,
+                                controller: _valorController,
                                 decoration: InputDecoration(
                                   labelText: 'Peso',
                                   hintText: "Digite o seu peso",
@@ -89,23 +89,22 @@ class _LuaState extends State<Lua> {
                                       width: 1)),
                               child: DropdownButtonHideUnderline(
                                 //esconde linha do drop
-                                child: DropdownButton(
+                                child: DropdownButton<String>(
                                     //drop
                                     borderRadius: BorderRadius.circular(10),
-                                    onChanged: (value) {
-                                      meuItemInicial = value.toString();
-                                      setState(() {});
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue!;
+                                      });
                                     },
-                                    value: meuItemInicial,
+                                    value: dropdownValue,
                                     isExpanded: true,
-                                    items: listaPlanetas.map((items) {
+                                    items: listaPlanetas.map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(
-                                            items,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ));
+                                          value: value,
+                                          child: Text(value,style: TextStyle(fontWeight: FontWeight.w400),
+                                          )
+                                        );
                                     }).toList()),
                               ),
                             ),
@@ -125,10 +124,13 @@ class _LuaState extends State<Lua> {
                                     onPrimary: Colors.white, // foreground
                                   ),
                                   onPressed: () {
-                                    // ignore: void_checks
-                                    return Total();
-
-                                    // ignore: unrelated_type_equality_checks
+                                    if (_valorController.text.isNotEmpty) {
+                                      // ignore: unused_local_variable
+                                      final double valor =
+                                          double.parse(_valorController.text);
+                                      print(valor);
+                                      print(dropdownValue);
+                                    }
                                   },
                                   child: Text(
                                     "Calcular",
