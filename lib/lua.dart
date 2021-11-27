@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, void_checks
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -32,12 +32,12 @@ class _LuaState extends State<Lua> {
       //importante
       color: Colors.white,
       child: Container(
-        margin: EdgeInsets.only(top: 50),
-        width: MediaQuery.of(context).size.width * .2,
-        height: MediaQuery.of(context).size.height * .2,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Expanded(
+              child: SingleChildScrollView(),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               // ignore: prefer_const_literals_to_create_immutables
@@ -54,7 +54,6 @@ class _LuaState extends State<Lua> {
               ],
             ),
             Container(
-              height: MediaQuery.of(context).size.height * .35,
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   return Stack(
@@ -99,12 +98,16 @@ class _LuaState extends State<Lua> {
                                     },
                                     value: dropdownValue,
                                     isExpanded: true,
-                                    items: listaPlanetas.map<DropdownMenuItem<String>>((String value) {
+                                    items: listaPlanetas
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
                                       return DropdownMenuItem(
                                           value: value,
-                                          child: Text(value,style: TextStyle(fontWeight: FontWeight.w400),
-                                          )
-                                        );
+                                          child: Text(
+                                            value,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w400),
+                                          ));
                                     }).toList()),
                               ),
                             ),
@@ -142,6 +145,8 @@ class _LuaState extends State<Lua> {
                                 ),
                               ),
                             ),
+                            ImagemPlanetas(),
+                            TextoPlaneta()
                           ],
                         ),
                       ),
@@ -155,41 +160,35 @@ class _LuaState extends State<Lua> {
       ),
     );
   }
-}
 
-class Total {
-  late final double peso;
-  late final String planeta;
-  late final double pesoTotal;
+  // ignore: non_constant_identifier_names
+  SizedBox TextoPlaneta() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * .10,
+      child: Text(
+        'O seu peso em $dropdownValue é de: ',
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+          decoration: TextDecoration.none,
+          fontSize: 20,
+        ),
+      ),
+    );
+  }
 
-  Calculo(double peso, String planeta) {
-    switch (planeta) {
-      case 'lua':
-        double pesoTotal = 0.17 * peso;
-
-        break;
-      case 'marte':
-        double pesoTotal = 0.38 * peso;
-        break;
-      case 'saturno':
-        double pesoTotal = 1.15 * peso;
-        break;
-      case 'jupiter':
-        double pesoTotal = 2.64 * peso;
-        break;
-      case 'urano':
-        double pesoTotal = 1.17 * peso;
-        break;
-      case 'plutao':
-        double pesoTotal = 0.11 * peso;
-        break;
-      case 'venus':
-        double pesoTotal = 0.88 * peso;
-        break;
-      case 'mercurio':
-        double pesoTotal = 0.37 * peso;
-        break;
-    }
-    return pesoTotal;
+  Padding ImagemPlanetas() {
+    return Padding(
+      padding: const EdgeInsets.only(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/' + dropdownValue + '.png',
+            width: MediaQuery.of(context).size.width * .70,
+          ),
+        ],
+      ),
+    );
   }
 }
