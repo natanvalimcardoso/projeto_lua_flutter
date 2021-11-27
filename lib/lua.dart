@@ -14,7 +14,8 @@ class _LuaState extends State<Lua> {
   final _valorController = TextEditingController();
   int contator = 0;
   String dropdownValue = 'jupiter';
-
+  var classeTotal = Total(0.0, '');
+  
   List<String> listaPlanetas = [
     "jupiter",
     "lua",
@@ -127,15 +128,15 @@ class _LuaState extends State<Lua> {
                                     onPrimary: Colors.white, // foreground
                                   ),
                                   onPressed: () {
-                                    setState(() { //mudar o valor do contator instantaneamente 
+                                    setState(() {
+                                      //mudar o valor do contator instantaneamente
                                       contator++;
                                     });
                                     if (_valorController.text.isNotEmpty) {
                                       // ignore: unused_local_variable
                                       final double valor =
                                           double.parse(_valorController.text);
-                                      print(valor);
-                                      print(dropdownValue);
+                                      Total(valor, dropdownValue);
                                     }
                                   },
                                   child: Text(
@@ -165,12 +166,12 @@ class _LuaState extends State<Lua> {
   }
 
   // ignore: non_constant_identifier_names
-  SizedBox TextoPlaneta() {
+  SizedBox TextoPlaneta() {//aquie
     if (_valorController.text.isNotEmpty && contator > 0) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * .10,
         child: Text(
-          'O seu peso em $dropdownValue é de: ',
+          'O seu peso em $dropdownValue é de: ${classeTotal.calculo(0, dropdownValue)}',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w500,
@@ -199,5 +200,40 @@ class _LuaState extends State<Lua> {
         ],
       ),
     );
+  }
+}
+
+class Total {
+  late double pesoFinal = 0.0;
+
+  Total(double valor, String dropdownValue);
+
+  calculo(double peso, String planeta) {
+    switch (planeta) {
+      case 'lua':
+        pesoFinal = 0.17 * peso;
+        return pesoFinal.round();
+      case 'marte':
+        pesoFinal = 0.38 * peso;
+        return pesoFinal.round();
+      case 'saturno':
+        pesoFinal = 1.15 * peso;
+        return pesoFinal.round();
+      case 'jupiter':
+        pesoFinal = 2.64 * peso;
+        return pesoFinal.round();
+      case 'urano':
+        pesoFinal = 1.17 * peso;
+        return pesoFinal.round();
+      case 'plutao':
+        pesoFinal = 0.11 * peso;
+        return pesoFinal.round();
+      case 'venus':
+        pesoFinal = 0.88 * peso;
+        return pesoFinal.round();
+      case 'mercurio':
+        pesoFinal = 0.37 * peso;
+        return pesoFinal.round();
+    }
   }
 }
