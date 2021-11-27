@@ -12,7 +12,7 @@ class Lua extends StatefulWidget {
 
 class _LuaState extends State<Lua> {
   final _valorController = TextEditingController();
-
+  int contator = 0;
   String dropdownValue = 'jupiter';
 
   List<String> listaPlanetas = [
@@ -127,6 +127,9 @@ class _LuaState extends State<Lua> {
                                     onPrimary: Colors.white, // foreground
                                   ),
                                   onPressed: () {
+                                    setState(() { //mudar o valor do contator instantaneamente 
+                                      contator++;
+                                    });
                                     if (_valorController.text.isNotEmpty) {
                                       // ignore: unused_local_variable
                                       final double valor =
@@ -145,7 +148,7 @@ class _LuaState extends State<Lua> {
                                 ),
                               ),
                             ),
-                            ImagemPlanetas(),
+                            ImagemPlanetas(dropdownValue),
                             TextoPlaneta()
                           ],
                         ),
@@ -163,21 +166,27 @@ class _LuaState extends State<Lua> {
 
   // ignore: non_constant_identifier_names
   SizedBox TextoPlaneta() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * .10,
-      child: Text(
-        'O seu peso em $dropdownValue é de: ',
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.w500,
-          decoration: TextDecoration.none,
-          fontSize: 20,
+    if (_valorController.text.isNotEmpty && contator > 0) {
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * .10,
+        child: Text(
+          'O seu peso em $dropdownValue é de: ',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            decoration: TextDecoration.none,
+            fontSize: 20,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * .10,
+      );
+    }
   }
 
-  Padding ImagemPlanetas() {
+  Padding ImagemPlanetas(String dropdownValue) {
     return Padding(
       padding: const EdgeInsets.only(),
       child: Column(
