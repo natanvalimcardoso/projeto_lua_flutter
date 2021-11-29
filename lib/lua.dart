@@ -15,7 +15,8 @@ class _LuaState extends State<Lua> {
   int contator = 0;
   String dropdownValue = 'jupiter';
   var classeTotal = Total(0.0, '');
-  
+  var valorPorCima = 0.0;
+
   List<String> listaPlanetas = [
     "jupiter",
     "lua",
@@ -78,8 +79,8 @@ class _LuaState extends State<Lua> {
                           endIndent: 20,
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 4),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(3),
                               border: Border.all(
@@ -118,8 +119,7 @@ class _LuaState extends State<Lua> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(35.0),
+                                    borderRadius: BorderRadius.circular(35.0),
                                     side: BorderSide(color: Colors.white)),
                                 primary: Color.fromRGBO(7, 78, 232, 1),
                                 elevation: 0,
@@ -135,6 +135,8 @@ class _LuaState extends State<Lua> {
                                   final double valor =
                                       double.parse(_valorController.text);
                                   Total(valor, dropdownValue);
+                                  valorPorCima = valor;
+                                  
                                 }
                               },
                               child: Text(
@@ -162,14 +164,15 @@ class _LuaState extends State<Lua> {
   }
 
   // ignore: non_constant_identifier_names
-  SizedBox TextoPlaneta() {//aquie
- // final double valor = double.parse(_valorController.text);
+  SizedBox TextoPlaneta() {
+    //aquie
+    //final double valor = double.parse(_valorController.text);
 
     if (_valorController.text.isNotEmpty && contator > 0) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * .10,
         child: Text(
-          'O seu peso em $dropdownValue é de: ${classeTotal.calculo(0, dropdownValue)}',
+          'O seu peso em $dropdownValue é de: ${classeTotal.calculo(valorPorCima, dropdownValue)} kg',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w500,
